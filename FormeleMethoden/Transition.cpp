@@ -71,7 +71,7 @@ template<class T>
 string Transition<T>::toGraphViz()
 {
 	std::stringstream ss;
-	ss << getFromState() << "->" << getToState() << "[label=\"" << getSymbol() << "\"];";
+	ss << getFromState() << "\t->\t" << getToState() << "\t[label=\"" << getSymbol() << "\"];";
 	return ss.str();
 }
 

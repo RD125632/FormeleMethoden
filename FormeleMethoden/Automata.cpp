@@ -47,20 +47,27 @@ template <class T>
 void Automata<T>::printTransitions()
 {
 	string graphViz = "";
-	graphViz.append("digraph finite_state_machine {");
-	graphViz.append("rankdir=LR;");
-	graphViz.append("node[shape = doublecircle];");
+	graphViz.append("digraph finite_state_machine {\n");
+	graphViz.append("\trankdir=LR;\n");
+	graphViz.append("\tnode[shape = doublecircle];");
 	
-	for(T state : finalStates)
+	for (T state : finalStates)
 		graphViz.append(state);
+	
+	graphViz.append(";\n");
 
-	graphViz.append(";node[shape = circle];");
+	graphViz.append("\tnode[shape = circle];\n");
 	for (Transition<T> &t : transitions)
+	{
+		graphViz.append("\t\t");
 		graphViz.append(t.toGraphViz());
+		graphViz.append("\n");
+	}
 
 	graphViz.append("}");
 
-	std::cout << graphViz << endl;
+	cout << graphViz << endl;
+	cout << endl;
 }
 
 template <class T>
