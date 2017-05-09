@@ -1,33 +1,3 @@
-// FormeleMethoden.cpp : Defines the entry point for the console application.
-//	
-//	To create graph of Language copy the code and past on site below
-//	http://www.webgraphviz.com/
-//
-//
-//
-
-/*
-#include <iostream>
-#include <windows.h>   // WinApi header
-using namespace std;    // std::cout, std::cin
-int main()
-{
-	HANDLE  hConsole;
-	int k;
-
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	// you can loop k higher to see more color choices
-	for (k = 1; k < 255; k++)
-	{
-		// pick the colorattribute k you want
-		SetConsoleTextAttribute(hConsole, k);
-		cout << k << " I want to be nice today!" << endl;
-	}
-
-	cin.get(); // wait
-	return 0;
-}*/
-
 #include <stdio.h>
 #include <vector>
 #include <string>
@@ -38,105 +8,155 @@ int main()
 
 using namespace std;
 
-HANDLE  hConsole;
-int choice = 0;
-
-// Begint met 'ABB'
-void practicum_1A()
+void PracticumL1R1()
 {
+	// Begint met 'ABB' of eindigt op BAAB
 	std::vector<char> alphabet = { 'a', 'b' };
 	Automata<string> m = Automata<string>(alphabet);
 
-	m.addTransition(Transition<string>("S", 'a', "q1"));
-	m.addTransition(Transition<string>("S", 'b', "F"));
+	m.addTransition(Transition<string>("S", alphabet[0], "2"));
+	m.addTransition(Transition<string>("S", alphabet[1], "5"));
 
-	m.addTransition(Transition<string>("q1", 'a', "F"));
-	m.addTransition(Transition<string>("q1", 'b', "q2"));
+	m.addTransition(Transition<string>("2", alphabet[0], "9"));
+	m.addTransition(Transition<string>("2", alphabet[1], "3"));
 
-	m.addTransition(Transition<string>("q2", 'a', "F"));
-	m.addTransition(Transition<string>("q2", 'b', "q3"));
+	m.addTransition(Transition<string>("3", alphabet[0], "6"));
+	m.addTransition(Transition<string>("3", alphabet[1], "4"));
 	
-	// the end state, loops for a and b:
-	m.addTransition(Transition<string>("q3", 'a'));
-	m.addTransition(Transition<string>("q3", 'b'));
+	m.addTransition(Transition<string>("4", alphabet[0], "4"));
+	m.addTransition(Transition<string>("4", alphabet[1], "4"));
+	
+	m.addTransition(Transition<string>("5", alphabet[0], "6"));
+	m.addTransition(Transition<string>("5", alphabet[1], "5"));
 
-	// the error state, loops for a and b:
-	m.addTransition(Transition<string>("F", 'a'));
-	m.addTransition(Transition<string>("F", 'b'));
+	m.addTransition(Transition<string>("6", alphabet[0], "7"));
+	m.addTransition(Transition<string>("6", alphabet[1], "5"));
+
+	m.addTransition(Transition<string>("7", alphabet[0], "9"));
+	m.addTransition(Transition<string>("7", alphabet[1], "8"));
+
+	m.addTransition(Transition<string>("8", alphabet[0], "6"));
+	m.addTransition(Transition<string>("8", alphabet[1], "5"));
+
+	m.addTransition(Transition<string>("9", alphabet[0], "9"));
+	m.addTransition(Transition<string>("9", alphabet[1], "5"));
 
 	// only on start state in a dfa:
 	m.defineAsStartState("S");
 
 	// final states:
-	m.defineAsFinalState("q3");
+	m.defineAsFinalState("4");	// Begint op ABB
+	m.defineAsFinalState("8");	// Eindigt op BAAB
 
 	m.printTransitions();
 }
 
-// Eindigt op baab
-void practicum_1B()
+void PracticumL1R2()
+{
+	// Begint met 'ABB' of eindigt op BAAB
+	std::vector<char> alphabet = { 'a', 'b' };
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[0], "1"));
+	m.addTransition(Transition<string>("S", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("1", alphabet[0], "S"));
+	m.addTransition(Transition<string>("1", alphabet[1], "4"));
+
+	m.addTransition(Transition<string>("2", alphabet[0], "1"));
+	m.addTransition(Transition<string>("2", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("3", alphabet[0], "1"));
+	m.addTransition(Transition<string>("3", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("4", alphabet[0], "S"));
+	m.addTransition(Transition<string>("4", alphabet[1], "3"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// final states:
+	m.defineAsFinalState("1");	// Leeg
+	m.defineAsFinalState("3");	// Bevat even aantal B's
+	m.defineAsFinalState("4");	// Bevat oneven aantal A's
+
+	m.printTransitions();
+}
+
+void PracticumL1R3()
 {
 	std::vector<char> alphabet = { 'a', 'b' };
 	Automata<string> m = Automata<string>(alphabet);
 
-	m.addTransition(Transition<string>("q0", 'a', "q0"));
-	m.addTransition(Transition<string>("q0", 'b', "q1"));
+	m.addTransition(Transition<string>("S", alphabet[0], "2"));
+	m.addTransition(Transition<string>("S", alphabet[1], "1"));
 
-	m.addTransition(Transition<string>("q1", 'a', "q2"));
-	m.addTransition(Transition<string>("q1", 'b', "q1"));
+	m.addTransition(Transition<string>("1", alphabet[0], "1"));
+	m.addTransition(Transition<string>("1", alphabet[1], "S"));
 
-	m.addTransition(Transition<string>("q2", 'a', "q3"));
-	m.addTransition(Transition<string>("q2", 'b', "q1"));
+	m.addTransition(Transition<string>("2", alphabet[0], "3"));
+	m.addTransition(Transition<string>("2", alphabet[1], "1"));
 
-	m.addTransition(Transition<string>("q3", 'a', "q0"));
-	m.addTransition(Transition<string>("q3", 'b', "q4"));
+	m.addTransition(Transition<string>("3", alphabet[0], "2"));
+	m.addTransition(Transition<string>("3", alphabet[1], "4"));
+
+	m.addTransition(Transition<string>("4", alphabet[0], "1"));
+	m.addTransition(Transition<string>("4", alphabet[1], "S"));
 
 	// only on start state in a dfa:
-	m.defineAsStartState("q0");
+	m.defineAsStartState("S");
 
 	// two final states:
-	m.defineAsFinalState("q4");
+	m.defineAsFinalState("4");	// Even aantal B's en eindigt op AAB
 
 	m.printTransitions();
 }
 
-void printMenu()
+void PracticumL1R4()
 {
-	SetConsoleTextAttribute(hConsole, 11);
-	cout << endl;
-	cout << " Menu" << endl;
-	cout << endl;
-	cout << " 1 - Practicum 1A" << endl;
-	cout << " 2 - Practicum 1B" << endl;
-	cout << " 10 - Exit" << endl;
-	cout << endl;
-	SetConsoleTextAttribute(hConsole, 10);
-	cout << " > ";
-	cin >> choice;
-	SetConsoleTextAttribute(hConsole, 15);
-	cout << endl;
+	std::vector<char> alphabet = { 'a', 'b' };
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[0], "1"));
+	m.addTransition(Transition<string>("S", alphabet[1], "7"));
+
+	m.addTransition(Transition<string>("1", alphabet[0], "7"));
+	m.addTransition(Transition<string>("1", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("2", alphabet[0], "7"));
+	m.addTransition(Transition<string>("2", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("3", alphabet[0], "4"));
+	m.addTransition(Transition<string>("3", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("4", alphabet[0], "5"));
+	m.addTransition(Transition<string>("4", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("5", alphabet[0], "3"));
+	m.addTransition(Transition<string>("5", alphabet[1], "6"));
+
+	m.addTransition(Transition<string>("6", alphabet[0], "6"));
+	m.addTransition(Transition<string>("6", alphabet[1], "6"));
+
+	m.addTransition(Transition<string>("7", alphabet[0], "7"));
+	m.addTransition(Transition<string>("7", alphabet[1], "7"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// two final states:
+	m.defineAsFinalState("6");	// Begint met ABB en bevat baab
+
+	//cout << m.accept("aabaab") << endl; returns 0 == false;
+	//cout << m.accept("abbaab") << endl; returns 1 == true;
+
+	//m.printTransitions();
 }
 
 int main()
 {
-	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	string a;
+	PracticumL1R4();
 
-	while (choice < 10)
-	{
-		switch (choice)
-		{
-			// Main options
-		case 0:
-			printMenu();	
-			break;
-		case 1:
-			practicum_1A();
-			choice = 0;
-			break;
-		case 2:
-			practicum_1B();
-			choice = 0;
-			break;
-		}
-	}
+	cin >> a;
 }

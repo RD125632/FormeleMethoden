@@ -15,6 +15,7 @@ public:
 	void defineAsStartState(T t);
 	void defineAsFinalState(T t);
 	void printTransitions();
+	bool accept(string s);
 	bool isDFA();
 
 private:
@@ -26,4 +27,5 @@ private:
 
 	void setAlphabet(std::vector<char> s);
 	std::vector<Transition<T>> getToStates(T from, char symbol);
+	T GoTo(char character, T currentState);
 };
