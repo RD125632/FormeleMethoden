@@ -205,7 +205,7 @@ void CheckWord()
 	{
 		alfabet.insert(c);
 	}
-	cout << ((CheckTransition(alfabet, word)) ? "Accepted" : "Denied") << endl;
+	cout << ((CheckTransition(alfabet, word)) ? "Accepted" : "Rejected") << endl;
 }
 
 int main()
