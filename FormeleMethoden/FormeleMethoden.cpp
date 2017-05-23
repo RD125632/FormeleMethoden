@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <vector>
+#include <set>
 #include <string>
 #include <windows.h>   // WinApi header
 
@@ -153,10 +154,64 @@ void PracticumL1R4()
 	//m.printTransitions();
 }
 
+bool CheckTransition(std::set<char> cSet, string word)
+{
+	std::vector<char> alphabet(cSet.begin(), cSet.end());
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[0], "1"));
+	m.addTransition(Transition<string>("S", alphabet[1], "7"));
+
+	m.addTransition(Transition<string>("1", alphabet[0], "7"));
+	m.addTransition(Transition<string>("1", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("2", alphabet[0], "7"));
+	m.addTransition(Transition<string>("2", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("3", alphabet[0], "4"));
+	m.addTransition(Transition<string>("3", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("4", alphabet[0], "5"));
+	m.addTransition(Transition<string>("4", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("5", alphabet[0], "3"));
+	m.addTransition(Transition<string>("5", alphabet[1], "6"));
+
+	m.addTransition(Transition<string>("6", alphabet[0], "6"));
+	m.addTransition(Transition<string>("6", alphabet[1], "6"));
+
+	m.addTransition(Transition<string>("7", alphabet[0], "7"));
+	m.addTransition(Transition<string>("7", alphabet[1], "7"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// two final states:
+	m.defineAsFinalState("6");
+	m.printTransitions();
+
+	return m.accept(word);
+}
+
+void CheckWord()
+{
+	string word;
+	std::set<char> alfabet;
+
+	cout << "Voer string in" << endl;
+	cin >> word;
+
+	for (char c : word)
+	{
+		alfabet.insert(c);
+	}
+	cout << ((CheckTransition(alfabet, word)) ? "Accepted" : "Denied") << endl;
+}
+
 int main()
 {
-	string a;
-	PracticumL1R4();
-
-	cin >> a;
+	while (true)
+	{
+		CheckWord();
+	}
 }

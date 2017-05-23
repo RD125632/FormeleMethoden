@@ -108,7 +108,6 @@ std::vector<Transition<T>> Automata<T>::getToStates(T from, char symbol)
 template <class T>
 bool Automata<T>::accept(string s)
 {
-	cout << "tes" << endl;
 	T currentState = startStates.front();
 	for (char& character : s)
 	{
