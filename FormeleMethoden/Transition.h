@@ -11,7 +11,7 @@ public:
 	Transition(T fromOrTo, char s);
 	Transition(T from, T to);
 	Transition(T from, char s, T to);
-	bool equals(const T &other);
+	//bool equals(const T &other);
 	int compareTo(const Transition<T> &t);
 	T getFromState();
 	T getToState();
