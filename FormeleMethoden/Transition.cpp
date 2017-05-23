@@ -20,12 +20,6 @@ Transition<T>::Transition(T from, char s, T to)
 }
 
 template<class T>
-bool Transition<T>::equals(const T &other)
-{
-	return false;
-}
-
-template<class T>
 int Transition<T>::compareTo(const Transition<T> &t)
 {
 	bool fromCmp = fromState == t.fromState;
