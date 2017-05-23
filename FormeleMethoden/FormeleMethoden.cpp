@@ -209,6 +209,14 @@ void CheckWord()
 	cout << ((CheckTransition(alfabet, word)) ? "Accepted" : "Rejected") << endl;
 }
 
+void printLanguageAsString(set<string> s) {
+	for (string const& taal : s)
+	{
+		std::cout << taal << ' ';
+	}
+	std::cout << endl;
+}
+
 void TestRegExp() {
 	RegExp *a, *b, *expr1, *expr2, *expr3, *expr4, *expr5, *all;
 
@@ -230,13 +238,18 @@ void TestRegExp() {
 	// expr5: "(baa | baa)+ (a|b)*"
 	expr5 = expr4->dot(all);
 
-	/*cout << "taal van (baa):\n" << expr1->getLanguage(5));
-	cout << "taal van (bb):\n" << expr2->getLanguage(5));
-	cout << "taal van (baa | bb):\n" << expr3->getLanguage(5));
-
-	cout << "taal van (a|b)*:\n" << all->getLanguage(5));
-	cout << "taal van (baa | bb)+:\n" << expr4->getLanguage(5));
-	cout << "taal van (baa | bb)+ (a|b)*:\n" << expr5->getLanguage(6));*/
+	cout << "taal van (baa):\n";
+	printLanguageAsString(expr1->getLanguage(5));
+	cout << "taal van (bb):\n";
+	printLanguageAsString(expr2->getLanguage(5));
+	cout << "taal van (baa | bb):\n";
+	printLanguageAsString(expr3->getLanguage(5));
+	cout << "taal van (a|b)*:\n";
+	printLanguageAsString(all->getLanguage(5));
+	cout << "taal van (baa | bb)+:\n";
+	printLanguageAsString(expr4->getLanguage(5));
+	cout << "taal van (baa | bb)+ (a|b)*:\n";
+	printLanguageAsString(expr5->getLanguage(6));
 }
 
 int main()

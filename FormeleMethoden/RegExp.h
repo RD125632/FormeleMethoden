@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <set>
 
 using namespace std;
 
@@ -16,10 +17,10 @@ public:
 	RegExp* star();
 	RegExp* or(RegExp *e2);
 	RegExp* dot(RegExp *e2);
-	//set<string> getLanguage(int maxSteps);
+	set<string> getLanguage(int maxSteps);
 
 private:
-	RegOperator RegOperator;
+	RegOperator regOperator;
 	string terminals;
 	RegExp* left;
 	RegExp* right;
