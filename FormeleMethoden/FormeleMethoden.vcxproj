@@ -147,11 +147,13 @@
   <ItemGroup>
     <ClCompile Include="Automata.cpp" />
     <ClCompile Include="FormeleMethoden.cpp" />
+    <ClCompile Include="Tests.cpp" />
     <ClCompile Include="RegExp.cpp" />
     <ClCompile Include="Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Automata.h" />
+    <ClInclude Include="Tests.h" />
     <ClInclude Include="RegExp.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>
