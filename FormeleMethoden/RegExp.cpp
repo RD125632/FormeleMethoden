@@ -5,6 +5,8 @@
 #include <iterator>
 #include <numeric>
 
+#include "Automata.h"
+
 RegExp::RegExp()
 {
 	regOperator = ONE;
@@ -123,3 +125,10 @@ set<string> RegExp::getLanguage(int maxSteps)
 
 	return languageResult;
 }
+/*
+Automata<string> RegExp::ToNDFA()
+{
+
+
+
+}*/

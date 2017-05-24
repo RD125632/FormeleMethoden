@@ -197,16 +197,16 @@ bool CheckTransition(std::set<char> cSet, string word)
 void CheckWord()
 {
 	string word;
-	std::set<char> alfabet;
+	std::set<char> alphabet;
 
 	cout << "Voer string in" << endl;
 	cin >> word;
 
 	for (char c : word)
 	{
-		alfabet.insert(c);
+		alphabet.insert(c);
 	}
-	cout << ((CheckTransition(alfabet, word)) ? "Accepted" : "Rejected") << endl;
+	cout << ((CheckTransition(alphabet, word)) ? "Accepted" : "Rejected") << endl;
 }
 
 void printLanguageAsString(set<string> s) {
@@ -252,8 +252,59 @@ void TestRegExp() {
 	printLanguageAsString(expr5->getLanguage(6));
 }
 
+void inputRegEx() {
+	string input;
+	int bracketCounter = 0;
+	cout << "Enter Regulare Expression" << endl;
+	cin >> input;
+	vector<string> regexParts;
+	string part;
+
+	for (char c : input)
+	{
+		part.push_back(c);
+		if (c == '(')
+		{
+			bracketCounter++;
+		}
+		if (c == ')')
+		{
+			bracketCounter--;
+		}
+		if (bracketCounter == 0)
+		{	
+			if (!regexParts.empty())
+			{
+				if (isalpha(c) && isalpha(regexParts.back().back())) {
+					regexParts.back().push_back(c);
+					part = "";
+				}
+				else if (c == '\*' || c == '\+')
+				{
+					regexParts.back().push_back(c);
+					part = "";
+				}
+				else
+				{
+					regexParts.push_back(part);
+					part = "";
+				}
+			}
+			else
+			{
+				regexParts.push_back(part);
+				part = "";
+			}
+		}
+	}
+
+
+	RegExp *exp = new RegExp(input);
+}
+
 int main()
 {
-		TestRegExp();
-		getchar();//don't close console immediately
+	
+	inputRegEx();
+	getchar();//don't close console immediately
 }
