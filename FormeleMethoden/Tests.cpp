@@ -379,23 +379,29 @@ RegExp* Tests::RegExBreakdown(string input)
 */
 void Tests::InputGrammer()
 {
-	string input;
-	vector<string> N, E, S;
-	vector<string> P;
+	string input, token;
+	vector<string> N, E, P, S;
 
 	cout << "Enter reguliere grammatica: G(N,E,P,S)" << endl;
 	cout << "Verzameling van alle states (N):" << endl;
 	cin >> input;
-	stringstream ss(input);
-	string token;
+	stringstream states(input);
 
-	while (getline(ss, token, ','))
+
+	while (getline(states, token, ','))
 	{
 		N.push_back(token);
 	}
 
 	cout << "Alfabet (E): " << endl; 
 	cin >> input;
+	stringstream alfabet(input);
+
+	while (getline(alfabet, token, ','))
+	{
+		E.push_back(token);
+	}
+
 	cout << "Productieregels (P): " << endl;
 	do {
 		cin >> input;
@@ -404,8 +410,10 @@ void Tests::InputGrammer()
 
 	cout << "Startstates: (S): " << endl;
 	cin >> input;
-
-
-
-
+	stringstream startstate(input);
+	while (getline(startstate, token, ','))
+	{
+		S.push_back(token);
+	}
+	
 }
