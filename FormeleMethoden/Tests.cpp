@@ -1,8 +1,7 @@
 #include "Tests.h"
 #include "Automata.h"
 #include "Transition.h"
-
-
+#include <sstream>
 
 Tests::Tests()
 {
@@ -381,6 +380,32 @@ RegExp* Tests::RegExBreakdown(string input)
 void Tests::InputGrammer()
 {
 	string input;
-	cout << "Enter reguliere grammatica" << endl;
+	vector<string> N, E, S;
+	vector<string> P;
+
+	cout << "Enter reguliere grammatica: G(N,E,P,S)" << endl;
+	cout << "Verzameling van alle states (N):" << endl;
 	cin >> input;
+	stringstream ss(input);
+	string token;
+
+	while (getline(ss, token, ','))
+	{
+		N.push_back(token);
+	}
+
+	cout << "Alfabet (E): " << endl; 
+	cin >> input;
+	cout << "Productieregels (P): " << endl;
+	do {
+		cin >> input;
+		P.push_back(input);
+	} while (cin.get() == ',');
+
+	cout << "Startstates: (S): " << endl;
+	cin >> input;
+
+
+
+
 }
