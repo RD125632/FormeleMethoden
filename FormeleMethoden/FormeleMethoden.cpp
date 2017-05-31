@@ -302,9 +302,52 @@ void inputRegEx() {
 	RegExp *exp = new RegExp(input);
 }
 
+void inputGrammer()
+{
+	string input;
+	cout << "Enter reguliere grammatica" << endl;
+	cin >> input;
+}
+
 int main()
 {
-	
-	inputRegEx();
-	getchar();//don't close console immediately
+	int choice;
+	cout << endl;
+	cout << "1: Voorbeeld Grammatica 1" << endl;
+	cout << "2: Voorbeeld Expressie 1" << endl;
+	cout << "3: Voorbeeld DFA 1" << endl;
+	cout << "4: Voorbeeld NFA 1" << endl;
+	cout << "5: Invoer Grammatica" << endl;
+	cout << "6: Invoer Expressie" << endl;
+	cout << "7: Invoer DFA" << endl;
+	cout << "8: Invoer NFA" << endl;
+
+	cout << "Maak een keuze: ";
+	cin >> choice;
+
+	switch (choice)
+	{
+	case 1:
+		break;
+	case 2:
+		TestRegExp();
+		break;
+	case 3:
+		PracticumL1R1();
+		break;
+	case 4:
+		break;
+	case 5:
+		inputGrammer();
+		break;
+	case 6:
+		inputRegEx();
+		break;
+	case 7:
+		break;
+	case 8:
+		break;
+	}
+
+	cin >> choice;
 }

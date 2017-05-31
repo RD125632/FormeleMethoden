@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Automata.h" />
+    <ClInclude Include="Grammatica.h" />
     <ClInclude Include="RegExp.h" />
     <ClInclude Include="Transition.h" />
   </ItemGroup>
