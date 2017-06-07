@@ -3,6 +3,10 @@
 #include "Transition.h"
 #include <sstream>
 
+#include "Grammatica.h"
+
+using namespace std;
+
 Tests::Tests()
 {
 }
@@ -380,7 +384,9 @@ RegExp* Tests::RegExBreakdown(string input)
 void Tests::InputGrammer()
 {
 	string input, token;
-	vector<string> N, E, P, S;
+	vector<char> E;
+	vector<string> N, S;
+	vector<Transition<string>> P;
 
 	cout << "Enter reguliere grammatica: G(N,E,P,S)" << endl;
 	cout << "Verzameling van alle states (N):" << endl;
@@ -399,14 +405,51 @@ void Tests::InputGrammer()
 
 	while (getline(alfabet, token, ','))
 	{
-		E.push_back(token);
+		E.push_back(token[0]);
 	}
 
-	cout << "Productieregels (P): " << endl;
-	do {
+	cout << "Productieregels (P): {" << endl;
+	bool moreRules = true;
+	while(moreRules)
+	{
 		cin >> input;
-		P.push_back(input);
-	} while (cin.get() == ',');
+		string fromState = "";
+		char character;
+		string toState = "";
+
+		string temp;
+		int partCount = 0;
+		for (char c : input)
+		{
+			if (c == ',')
+			{			
+
+				temp.clear();
+				partCount++;
+			}
+			else if (c == '}')
+			{
+				moreRules = false;
+			}
+			else
+			{
+				temp += c;
+				switch (partCount)
+				{
+				case 0:
+					fromState = temp;
+					break;
+				case 1:
+					character = temp.back();
+					break;
+				case 2:
+					toState = temp;
+					break;
+				}
+			}	
+		}
+		P.push_back(Transition<string>(fromState, character, toState));
+	}
 
 	cout << "Startstates: (S): " << endl;
 	cin >> input;
@@ -416,4 +459,8 @@ void Tests::InputGrammer()
 		S.push_back(token);
 	}
 	
+	Grammatica<string> grammer = Grammatica<string>(N, E, P, S);
+
+	Automata<string> automata = grammer.toNFA();
+
 }
