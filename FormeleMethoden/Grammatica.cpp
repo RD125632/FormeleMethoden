@@ -11,12 +11,4 @@ Grammatica<T>::Grammatica(vector<T> states, vector<char> alphabet, vector<Transi
 	Grammatica<T>::startStates = startStates;
 }
 
-template<class T>
-Automata<T> Grammatica<T>::toNFA()
-{
-	Automata<string> m = Automata<string>(Grammatica<T>::alphabet);
-
-	return m;
-}
-
 template class Grammatica<string>;

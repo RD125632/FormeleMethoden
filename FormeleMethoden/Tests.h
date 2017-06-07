@@ -4,6 +4,7 @@
 #include <string>
 
 #include "RegExp.h"
+#include "Grammatica.h"
 
 using namespace std;
 
@@ -20,6 +21,10 @@ public:
 	void InputWord();
 
 	void InputGrammer();
+	void GrammaticaToNfa(Grammatica<string>*);
+
+	void InputNFA();
+	void NfaToGrammatica(Automata<string>* automata);
 
 	RegExp* RegExBreakdown(string);
 	void InputWithRegEx();

@@ -377,9 +377,9 @@ RegExp* Tests::RegExBreakdown(string input)
 }
 
 
-/*	Check the given word with Regular Grammer
-*	Input: Word
-*	Output: WIP
+/*
+*	Input: Grammatica
+*	Output: NFA
 */
 void Tests::InputGrammer()
 {
@@ -448,7 +448,9 @@ void Tests::InputGrammer()
 				}
 			}	
 		}
-		P.push_back(Transition<string>(fromState, character, toState));
+
+		if(!fromState.empty() && !toState.empty())
+			P.push_back(Transition<string>(fromState, character, toState));
 	}
 
 	cout << "Startstates: (S): " << endl;
@@ -460,7 +462,142 @@ void Tests::InputGrammer()
 	}
 	
 	Grammatica<string> grammer = Grammatica<string>(N, E, P, S);
-
-	Automata<string> automata = grammer.toNFA();
-
+	Tests::GrammaticaToNfa(&grammer);
 }
+
+void  Tests::GrammaticaToNfa(Grammatica<string>* grammer)
+{
+	cout << "Omzetten van Reguliere Grammatica naar NFA....." << endl;
+	string input, token;
+
+	Automata<string> automata = Automata<string>(grammer->alphabet);
+	for (Transition<string> t : grammer->transitions)
+		automata.addTransition(t);
+	for (string s : grammer->startStates)
+		automata.defineAsStartState(s);
+	
+	cout << "De Reguliere Grammatica mist eindtoestanden." << endl;
+	cout << "Eventuele eindtoestanden: ";
+	cin >> input;
+	stringstream endstates(input);
+
+	while (getline(endstates, token, ','))
+	{
+		automata.defineAsFinalState(token);
+	}
+	automata.printTransitions();
+}
+
+
+/*	Check the given word with Regular Grammer
+*	Input: NFA
+*	Output: Grammatica
+
+{(0, 'a'): [1], (2, '$'): [0, 3], (3, 'b'): [4], (4, '$'): [5], (0, '$'): [5], (5, 'a'): [6]}
+
+*/
+void Tests::InputNFA()
+{
+	string input, token;
+	vector<char> E;
+	vector<string> N, S, F;
+	vector<Transition<string>> P;
+
+	cout << "Enter NFA: NFA(N,E,P,S,F)" << endl;
+	cout << "Verzameling van alle states (N):" << endl;
+	cin >> input;
+	stringstream states(input);
+
+	while (getline(states, token, ','))
+	{
+		N.push_back(token);
+	}
+
+	cout << "Alfabet (E): " << endl;
+	cin >> input;
+	stringstream alfabet(input);
+
+	while (getline(alfabet, token, ','))
+	{
+		E.push_back(token[0]);
+	}
+
+	cout << "Productieregels (P): {" << endl;
+	bool moreRules = true;
+	while (moreRules)
+	{
+		cin >> input;
+		string fromState = "";
+		char character;
+		string toState = "";
+
+		string temp;
+		int partCount = 0;
+		for (char c : input)
+		{
+			if (c == ',')
+			{
+
+				temp.clear();
+				partCount++;
+			}
+			else if (c == '}')
+			{
+				moreRules = false;
+			}
+			else
+			{
+				temp += c;
+				switch (partCount)
+				{
+				case 0:
+					fromState = temp;
+					break;
+				case 1:
+					character = temp.back();
+					break;
+				case 2:
+					toState = temp;
+					break;
+				}
+			}
+		}
+
+		if (!fromState.empty() && !toState.empty())
+			P.push_back(Transition<string>(fromState, character, toState));
+	}
+
+	cout << "Startstates: (S): " << endl;
+	cin >> input;
+	stringstream startstate(input);
+	while (getline(startstate, token, ','))
+	{
+		S.push_back(token);
+	}
+	cout << "Finalstates: (F): " << endl;
+	cin >> input;
+	stringstream finalstate(input);
+	while (getline(finalstate, token, ','))
+	{
+		F.push_back(token);
+	}
+
+	Automata<string> automata = Automata<string>(E);
+
+	for (Transition<string> t : P)
+		automata.addTransition(t);
+	for (string s : S)
+		automata.defineAsStartState(s);
+	for (string s : F)
+		automata.defineAsFinalState(s);
+
+	Tests::NfaToGrammatica(&automata);
+}
+
+void  Tests::NfaToGrammatica(Automata<string>* automata)
+{
+	Grammatica<string> grammer = Grammatica<string>(automata->getStates(), automata->getAlphabet(), automata->getTransitions(), automata->getStartStates());
+	grammer.getLanguage();
+}
+
+
