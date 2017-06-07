@@ -312,7 +312,7 @@ void Tests::GetLanguageFromRegEx() {
 void Tests::InputWithRegEx()
 {
 	string input;
-	cout << "Enter Regulare Expression" << endl;
+	cout << "Enter Regular Expression" << endl;
 	cin >> input;
 	RegExp *exp = RegExBreakdown(input);
 }
