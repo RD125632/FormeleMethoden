@@ -18,6 +18,11 @@ public:
 	RegExp* or(RegExp *e2);
 	RegExp* dot(RegExp *e2);
 	set<string> getLanguage(int maxSteps);
+	RegOperator getRegOperator();
+	string getTerminals();
+	RegExp* getLeft();
+	RegExp* getRight();
+	string toString();
 
 private:
 	RegOperator regOperator;

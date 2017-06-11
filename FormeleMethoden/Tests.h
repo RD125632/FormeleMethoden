@@ -15,6 +15,8 @@ public:
 	void PracticumL1R3();
 	void PracticumL1R4();
 	void RegExpessie();
+	void Thompson();
+	void printThompson(RegExp* reg);
 
 	bool AcceptWord(set<char>, string);
 	void InputWord();

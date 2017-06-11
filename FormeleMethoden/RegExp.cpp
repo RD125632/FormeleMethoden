@@ -125,6 +125,50 @@ set<string> RegExp::getLanguage(int maxSteps)
 
 	return languageResult;
 }
+RegExp::RegOperator RegExp::getRegOperator()
+{
+	return regOperator;
+}
+string RegExp::getTerminals()
+{
+	return terminals;
+}
+RegExp* RegExp::getLeft()
+{
+	return left;
+}
+RegExp* RegExp::getRight()
+{
+	return right;
+}
+string RegExp::toString()
+{
+	string left = "", right = "", reg = "";
+	if (RegExp::left != nullptr) left = RegExp::left->toString();
+	if (RegExp::right != nullptr) right = RegExp::right->toString();
+
+	switch (regOperator) {
+	case PLUS:
+		reg = left + std::string("+");
+		break;
+	case STAR:
+		reg = left + std::string("*");
+		break;
+	case OR:
+		reg = std::string("(") + left + std::string("|") + right + std::string(")");
+		break;
+	case DOT:
+		reg = std::string("(") + left + std::string(".") + right + std::string(")");
+		break;
+	case ONE:
+		reg = terminals;
+		break;
+	default:
+		break;
+	}
+
+	return reg;
+}
 /*
 Automata<string> RegExp::ToNDFA()
 {

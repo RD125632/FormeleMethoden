@@ -20,6 +20,7 @@ int main()
 	cout << "6: Invoer Expressie" << endl;
 	cout << "7: Invoer DFA" << endl;
 	cout << "8: Invoer NFA" << endl;
+	cout << "9: Thompson" << endl;
 
 	cout << "Maak een keuze: ";
 	cin >> choice;
@@ -48,6 +49,9 @@ int main()
 	case 7:
 		break;
 	case 8:
+		break;
+	case 9:
+		testLib.Thompson();
 		break;
 	}
 	// Hold Console
