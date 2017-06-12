@@ -44,6 +44,10 @@ int main()
 	// Punt 9
 	cout << "91: Invoer Grammatica naar NFA " << endl;
 	cout << "92: Hardcode NFA naar Grammatica" << endl;
+	
+	cout << "Maak een keuze: ";
+	cin >> choice;
+
 
 	switch (choice)
 	{
@@ -112,8 +116,7 @@ int main()
 //	//cout << "9: DFA Minimaliseren" << endl;				// DFA -> DFA							: Minimaliseren
 //>>>>>>> WIP-Grammatica
 
-	cout << "Maak een keuze: ";
-	cin >> choice;
+
 
 //	switch (choice)
 //	{

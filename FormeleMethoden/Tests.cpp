@@ -4,6 +4,8 @@
 #include "Thompson.h"
 #include <sstream>
 #include "Grammatica.h"
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -218,52 +220,29 @@ void Tests::NFA3()
 
 void Tests::Thompson()
 {
-	////(a|b)*
-	//RegExp* regex = new RegExp("a");
-	//regex = regex->or(new RegExp("b"));
-	//regex = regex->star();
-	//printThompson(regex);
-	//delete regex;
-
-	////((ab))+
-	//regex = new RegExp("a");
-	//regex = regex->dot(new RegExp("b"));
-	//regex = regex->plus();
-	//printThompson(regex);
-	//delete regex;
-
-	////((a|b)|(a|d))
-	//RegExp *rA, *rB, *rC, *rD, *reg;
-	//rA = new RegExp("a");
-	//rB = new RegExp("b");
-	//rC = new RegExp("c");
-	//rD = new RegExp("d");
-
-	//reg = rA->or (rB);
-	//reg = reg->or(rC->or(rD));
-	//printThompson(reg);
-	//delete rA, rB, rC, rD, regex;
-
-	RegExp *a, *b, *expr1, *expr2, *expr3, *expr4, *expr5, *all;
+	RegExp *a, *b, *expr1, *expr2, *expr3, *expr4, *expr5, *expr6, *all;
 
 	a = new RegExp("a");
 	b = new RegExp("b");
 
+	//expr6: "(a|b)*"
+	expr6 = a->or(b);
+	expr6 = expr6->star();
 	// expr1: "baa"
 	expr1 = new RegExp("baa");
 	// expr2: "bb"
 	expr2 = new RegExp("bb");
-	// expr3: "baa | baa"
+	// expr3: "baa | bb"
 	expr3 = expr1-> or (expr2);
 
 	// all: "(a|b)*"
 	all = (a-> or (b))->star();
 
-	// expr4: "(baa | baa)+"
+	// expr4: "(baa | bb)+"
 	expr4 = expr3->plus();
-	// expr5: "(baa | baa)+ (a|b)*"
+	// expr5: "(baa | bb)+ (a|b)*"
 	expr5 = expr4->dot(all);
-	printThompson(expr5);
+	printThompson(expr4);
 }
 
 void Tests::printThompson(RegExp * reg)
@@ -272,14 +251,6 @@ void Tests::printThompson(RegExp * reg)
 	cout << reg->toString() <<endl;
 	Automata<string>* automata = Thompson::createAutomata(reg);
 	automata->printTransitions();
-	string woord = "baaab";
-	cout << "Check op woord: " << woord << " -> " << ((automata->accept(woord)) ? "Accepted" : "Rejected") << endl;
-
-	cout << "Alphabet:" << endl;
-	for(char symbol : automata->getAlphabet())
-	{
-		cout << symbol << " ";
-	}
 	cout << "Talen behorende bij de regex:" << endl;
 	for(string s : reg->getLanguage(3))
 	{
@@ -361,6 +332,34 @@ void Tests::printLanguageAsString(set<string> s) {
 		std::cout << taal << ' ';
 	}
 	std::cout << endl;
+}
+
+void Tests::readRegExpFromFile()
+{
+	string line;
+	ifstream myfile("test.txt");
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			cout << line << '\n';
+		}
+		myfile.close();
+	}
+
+	else cout << "Unable to open file";
+}
+
+void Tests::saveResultsToFile()
+{
+	ofstream myfile("test-results.txt");
+	if (myfile.is_open())
+	{
+		myfile << "This is a line.\n";
+		myfile << "This is another line.\n";
+		myfile.close();
+	}
+	else cout << "Unable to open file";
 }
 
 void Tests::GetLanguageFromRegEx1() {
@@ -488,7 +487,8 @@ void Tests::InputWithRegEx()
 	cout << "Enter Regular Expression" << endl;
 	cin >> input;
 	RegExp *exp = RegExBreakdown(input);
-	cout << exp->toString();
+	exp->toString();
+	getchar();
 }
 
 

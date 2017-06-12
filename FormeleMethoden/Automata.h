@@ -22,15 +22,13 @@ public:
 	void printTransitions();
 	bool accept(string s);
 	bool isDFA();
-
+	void setAlphabet(vector<char> s);
 private:
 	vector<Transition<T>> transitions = {};
 	vector<char> symbols = {};
 	vector<T> states = {};
 	vector<T> startStates = {};
 	vector<T> finalStates = {};
-
-	void setAlphabet(vector<char> s);
 	vector<Transition<T>> getToStates(T from, char symbol);
 	T GoTo(char character, T currentState);
 };
