@@ -11,6 +11,7 @@ class Automata {
 public:
 	Automata(std::vector<char> s = std::vector<char>());
 	std::vector<char> getAlphabet();
+	void setAlphabet(std::vector<char>);
 	void addTransition(Transition<T> t);
 	void defineAsStartState(T t);
 	void defineAsFinalState(T t);
@@ -25,7 +26,7 @@ private:
 	std::vector<T> startStates = {};
 	std::vector<T> finalStates = {};
 
-	void setAlphabet(std::vector<char> s);
+	//void setAlphabet(std::vector<char> s);
 	std::vector<Transition<T>> getToStates(T from, char symbol);
 	T GoTo(char character, T currentState);
 };

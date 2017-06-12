@@ -28,4 +28,6 @@ public:
 
 	void GetLanguageFromRegEx();
 	void printLanguageAsString(set<string>);
+	void readRegExpFromFile();
+	void saveResultsToFile();
 };
