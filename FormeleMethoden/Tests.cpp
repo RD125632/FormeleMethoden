@@ -411,13 +411,13 @@ void Tests::readRegExpFromFile()
 	else cout << "Unable to open file";
 }
 
-void Tests::saveResultsToFile()
+void Tests::saveResultsToFile(string content)
 {
 	ofstream myfile("test-results.txt");
 	if (myfile.is_open())
 	{
-		myfile << "This is a line.\n";
-		myfile << "This is another line.\n";
+		myfile << content;
+		//myfile << "This is another line.\n";
 		myfile.close();
 	}
 	else cout << "Unable to open file";
@@ -569,6 +569,10 @@ void Tests::InputWithRegEx(string input)
 	{
 		cout << s << endl;
 	}
+	cout << "ndfa:" << endl;
+	Automata<string>* automata = Thompson::createAutomata(exp);
+	automata->printTransitions();
+	saveResultsToFile(automata->getGraphvizString());
 	getchar();
 }
 

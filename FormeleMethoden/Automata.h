@@ -24,6 +24,7 @@ public:
 	void defineAsStartState(T t);
 	void defineAsFinalState(T t);
 	void printTransitions();
+	string getGraphvizString();
 	bool accept(string s);
 	bool isDFA();
 	void setAlphabet(vector<char> s);

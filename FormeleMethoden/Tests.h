@@ -40,5 +40,5 @@ public:
 	void GetLanguageFromRegEx3();
 	void printLanguageAsString(set<string>);
 	void readRegExpFromFile();
-	void saveResultsToFile();
+	void saveResultsToFile(string);
 };

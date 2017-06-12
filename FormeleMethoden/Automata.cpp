@@ -189,6 +189,35 @@ void Automata<T>::printTransitions()
 }
 
 template <class T>
+string Automata<T>::getGraphvizString()
+{
+	string graphViz = "";
+	graphViz.append("digraph finite_state_machine {\n");
+	graphViz.append("\trankdir=LR;\n");
+	graphViz.append("\tnode[shape = doublecircle];");
+
+	for (T state : finalStates)
+	{
+		graphViz.append(" ");
+		graphViz.append(state);
+	}
+
+	graphViz.append(";\n");
+
+	graphViz.append("\tnode[shape = circle];\n");
+	for (Transition<T> &t : transitions)
+	{
+		graphViz.append("\t\t");
+		graphViz.append(t.toGraphViz());
+		graphViz.append("\n");
+	}
+
+	graphViz.append("}");
+
+	return graphViz;
+}
+
+template <class T>
 bool Automata<T>::isDFA()
 {
 	bool isDFA = true;
