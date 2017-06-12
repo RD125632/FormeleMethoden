@@ -148,6 +148,7 @@
     <ClCompile Include="Automata.cpp" />
     <ClCompile Include="FormeleMethoden.cpp" />
     <ClCompile Include="Grammatica.cpp" />
+    <ClCompile Include="NdfaToDfaConverter.cpp" />
     <ClCompile Include="Tests.cpp" />
     <ClCompile Include="RegExp.cpp" />
     <ClCompile Include="Thompson.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Automata.h" />
     <ClInclude Include="Grammatica.h" />
+    <ClInclude Include="NdfaToDfaConverter.h" />
     <ClInclude Include="Tests.h" />
     <ClInclude Include="RegExp.h" />
     <ClInclude Include="Thompson.h" />

@@ -8,6 +8,7 @@
     <ClCompile Include="Transition.cpp" />
     <ClCompile Include="Thompson.cpp" />
     <ClCompile Include="Grammatica.cpp" />
+    <ClCompile Include="NdfaToDfaConverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Automata.h" />
@@ -16,6 +17,7 @@
     <ClInclude Include="RegExp.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="Thompson.h" />
+    <ClInclude Include="NdfaToDfaConverter.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

@@ -18,7 +18,10 @@ public:
 	vector<T> getStates();
 	vector<T> getStartStates();
 	vector<T> getFinalStates();
+	void setStartStates(vector<T>);
+	void setFinalStates(vector<T>);
 	vector<Transition<T>> getTransitions();
+	vector<Transition<T>> getTransition(T state);
 
 	void addTransition(Transition<T> t);
 	void defineAsStartState(T t);
@@ -27,6 +30,7 @@ public:
 	bool accept(string s);
 	bool isDFA();
 	void setAlphabet(vector<char> s);
+	
 private:
 	void Automata<T>::BeginWith(string word);
 	void Automata<T>::EndWith(string word);
