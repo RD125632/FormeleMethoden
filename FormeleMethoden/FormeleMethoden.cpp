@@ -18,6 +18,7 @@ int main()
 	Tests testLib;
 	int choice;
 	cout << endl;
+	cout << "Menu:" << endl;
 	// Punt 1
 	cout << "11: Voorbeeld DFA 1 " << endl;
 	cout << "12: Voorbeeld DFA 2 " << endl;
