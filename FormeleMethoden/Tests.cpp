@@ -220,29 +220,70 @@ void Tests::NFA3()
 
 void Tests::Thompson()
 {
-	RegExp *a, *b, *expr1, *expr2, *expr3, *expr4, *expr5, *expr6, *all;
+	//RegExp *a, *b, *expr1, *expr2, *expr3, *expr4, *expr5, *expr6, *all;
 
+	//a = new RegExp("a");
+	//b = new RegExp("b");
+
+	////expr6: "(a|b)*"
+	//expr6 = a->or(b);
+	//expr6 = expr6->star();
+	//// expr1: "baa"
+	//expr1 = new RegExp("baa");
+	//// expr2: "bb"
+	//expr2 = new RegExp("bb");
+	//// expr3: "baa | bb"
+	//expr3 = expr1-> or (expr2);
+
+	//// all: "(a|b)*"
+	//all = (a-> or (b))->star();
+
+	//// expr4: "(baa | bb)+"
+	//expr4 = expr3->plus();
+	//// expr5: "(baa | bb)+ (a|b)*"
+	//expr5 = expr4->dot(all);
+
+	//RegExp *e1, *e2, *e3, *e4, *e5, *e6, *e7, *e00, *e01, *e02, *e03;
+	//e1 = new RegExp("a");
+	//e1 = e1->star();
+	//e2 = new RegExp("aa");
+	//e2 = e2->plus();
+	//e3 = new RegExp("ba");
+	//e3 = e3->star();
+	//e4 = new RegExp("b");
+	//e5 = new RegExp("abba");
+	//e6 = new RegExp("baab");
+	//e7 = new RegExp("bbbb");
+
+	//e00 = e3->dot(e4);
+	//e01 = e2-> or (e00);
+	//e02 = e5-> or (e6-> or (e7))->plus();
+	//e00 = e01->dot(e00)->dot(e02);
+
+	//e00 = e1->dot(e00);
+
+	RegExp *a, *aa, *ba, *b, *abba, *baab, *bbbb, *aster, *aaplus, *baster, *basterb, *e1, *e2, *e3, *e4;
 	a = new RegExp("a");
+	aster = a->star();
+	aa = new RegExp("aa");
+	aaplus = aa->plus();
+	ba = new RegExp("ba");
+	baster = ba->star();
 	b = new RegExp("b");
+	abba = new RegExp("abba");
+	baab = new RegExp("baab");
+	bbbb = new RegExp("bbbb");
 
-	//expr6: "(a|b)*"
-	expr6 = a->or(b);
-	expr6 = expr6->star();
-	// expr1: "baa"
-	expr1 = new RegExp("baa");
-	// expr2: "bb"
-	expr2 = new RegExp("bb");
-	// expr3: "baa | bb"
-	expr3 = expr1-> or (expr2);
+	basterb = baster->dot(b);
+	e1 = aaplus-> or (basterb);
+	e2 = aster->dot(e1); //a*(aa+|ba*b)
 
-	// all: "(a|b)*"
-	all = (a-> or (b))->star();
+	e3 = abba-> or (baab)-> or (bbbb);
+	e3 = e3->plus(); //(abba|baab|bbbb)+
 
-	// expr4: "(baa | bb)+"
-	expr4 = expr3->plus();
-	// expr5: "(baa | bb)+ (a|b)*"
-	expr5 = expr4->dot(all);
-	printThompson(expr4);
+	e4 = e2->dot(e3);
+
+	printThompson(e4);
 }
 
 void Tests::printThompson(RegExp * reg)
@@ -251,11 +292,11 @@ void Tests::printThompson(RegExp * reg)
 	cout << reg->toString() <<endl;
 	Automata<string>* automata = Thompson::createAutomata(reg);
 	automata->printTransitions();
-	cout << "Talen behorende bij de regex:" << endl;
-	for(string s : reg->getLanguage(3))
-	{
-		cout << s << endl;
-	}
+	//cout << "Talen behorende bij de regex:" << endl;
+	//for(string s : reg->getLanguage(3))
+	//{
+	//	cout << s << endl;
+	//}
 	getchar();
 }
 
