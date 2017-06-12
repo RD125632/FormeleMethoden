@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Automata.cpp" />
     <ClCompile Include="FormeleMethoden.cpp" />
+    <ClCompile Include="Grammatica.cpp" />
     <ClCompile Include="Tests.cpp" />
     <ClCompile Include="RegExp.cpp" />
     <ClCompile Include="Thompson.cpp" />

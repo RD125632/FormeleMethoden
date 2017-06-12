@@ -5,6 +5,7 @@
 
 #include "Automata.h"
 #include "RegExp.h"
+#include "Grammatica.h"
 
 using namespace std;
 
@@ -27,9 +28,14 @@ public:
 	void NFA1();
 	void NFA2();
 	void NFA3();
+	void GrammaticaToNfa(Grammatica<string>*);
+	void InputNFA();
+	void NfaToGrammatica(Automata<string>* automata);
 	RegExp* RegExBreakdown(string);
 	void InputWithRegEx();
 
-	void GetLanguageFromRegEx();
+	void GetLanguageFromRegEx1();
+	void GetLanguageFromRegEx2();
+	void GetLanguageFromRegEx3();
 	void printLanguageAsString(set<string>);
 };

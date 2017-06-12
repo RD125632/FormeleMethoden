@@ -1,4 +1,5 @@
 #include "Automata.h"
+#include "Grammatica.h"
 
 #include <algorithm>
 
@@ -19,6 +20,30 @@ template <class T>
 std::vector<char> Automata<T>::getAlphabet()
 {
 	return symbols;
+}
+
+template<class T>
+vector<T> Automata<T>::getStates()
+{
+	return states;
+}
+
+template<class T>
+vector<T> Automata<T>::getStartStates()
+{
+	return startStates;
+}
+
+template<class T>
+vector<T> Automata<T>::getFinalStates()
+{
+	return finalStates;
+}
+
+template<class T>
+vector<Transition<T>> Automata<T>::getTransitions()
+{
+	return transitions;
 }
 
 template <class T>
