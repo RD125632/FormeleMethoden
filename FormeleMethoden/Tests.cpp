@@ -156,6 +156,64 @@ void Tests::PracticumL1R4()
 								//m.printTransitions();
 }
 
+void Tests::NFA1()
+{
+	std::vector<char> alphabet = { 'a', 'b', '$' };
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[0], "1"));
+	m.addTransition(Transition<string>("1", alphabet[0], "2"));
+	m.addTransition(Transition<string>("2", alphabet[0], "3"));
+	m.addTransition(Transition<string>("3", alphabet[0], "4"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// two final states:
+	m.defineAsFinalState("4");	
+	m.printTransitions();
+}
+
+void Tests::NFA2()
+{
+	std::vector<char> alphabet = { 'a', 'b', '$' };
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[2], "1"));
+	m.addTransition(Transition<string>("4", alphabet[2], "2"));
+	m.addTransition(Transition<string>("3", alphabet[2], "1"));
+	m.addTransition(Transition<string>("1", alphabet[0], "2"));
+	m.addTransition(Transition<string>("2", alphabet[1], "3"));
+	m.addTransition(Transition<string>("3", alphabet[0], "4"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// two final states:
+	m.defineAsFinalState("4");
+	m.printTransitions();
+}
+
+void Tests::NFA3()
+{
+	std::vector<char> alphabet = { 'a', 'b', '$' };
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[2], "1"));
+	m.addTransition(Transition<string>("1", alphabet[0], "2"));
+	m.addTransition(Transition<string>("2", alphabet[0], "3"));
+	m.addTransition(Transition<string>("4", alphabet[0], "3"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+	m.defineAsStartState("4");
+
+	// two final states:
+	m.defineAsFinalState("3");
+	m.printTransitions();
+}
+
+
 void Tests::RegExpessie() {
 	RegExp *a, *b, *expr1, *expr2, *expr3, *expr4, *expr5, *all;
 
@@ -240,7 +298,7 @@ void Tests::Thompson()
 	expr4 = expr3->plus();
 	// expr5: "(baa | baa)+ (a|b)*"
 	expr5 = expr4->dot(all);
-	printThompson(all);
+	printThompson(expr5);
 }
 
 void Tests::printThompson(RegExp * reg)
@@ -249,6 +307,9 @@ void Tests::printThompson(RegExp * reg)
 	cout << reg->toString() <<endl;
 	Automata<string>* automata = Thompson::createAutomata(reg);
 	automata->printTransitions();
+	string woord = "baaab";
+	cout << "Check op woord: " << woord << " -> " << ((automata->accept(woord)) ? "Accepted" : "Rejected") << endl;
+
 	cout << "Alphabet:" << endl;
 	for(char symbol : automata->getAlphabet())
 	{
@@ -374,19 +435,57 @@ void Tests::GetLanguageFromRegEx() {
 	printLanguageAsString(expr5->getLanguage(6));
 }
 
+/*
+*	Input: Woorden random
+*	Output: Niet geaccepteerde woorden
+*/
+
+void Tests::GenerateWord(string str, string res, Automata<string> *m) {
+	cout << res;
+	cout << (m->accept(res) ? " -> Accepted" : " -> Rejected") << endl;
+
+	for (int i = 0; i < str.length(); i++)
+		GenerateWord(string(str).erase(i, 1), res + str[i], m);
+}
+
+void Tests::TryWords()
+{
+	std::vector<char> alphabet = { 'a', 'b' };
+	Automata<string> m = Automata<string>(alphabet);
+
+	m.addTransition(Transition<string>("S", alphabet[0], "1"));
+	m.addTransition(Transition<string>("S", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("1", alphabet[0], "1"));
+	m.addTransition(Transition<string>("1", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("2", alphabet[0], "1"));
+	m.addTransition(Transition<string>("2", alphabet[1], "2"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// two final states:
+	m.defineAsFinalState("2");
+
+	string str = "bab";
+	cout << "Controleer gegenereerde woorden:" << endl;
+	GenerateWord(str, "", &m);
+}
 
 
 
-/*	Check the given word with Regular Expression
-*	Input: Word
-*	Output: WIP
+/*	
+*	Input: Reguliere Expressie
+*	Output: Zelfde Expressie
 */
 void Tests::InputWithRegEx()
 {
-	string input;
+	string input = "((ba)(a|b)*)+";
 	cout << "Enter Regular Expression" << endl;
 	cin >> input;
 	RegExp *exp = RegExBreakdown(input);
+	cout << exp->toString();
 }
 
 
@@ -394,54 +493,104 @@ RegExp* Tests::RegExBreakdown(string input)
 {
 	int bracketCounter = 0;
 	vector<string> regexParts;
-	string part;
+	string part, outside;
+	RegExp *specialRegexPart, *regexPart;
 
-	for (char c : input)
+
+	if (input.find("(") != std::string::npos || input.find(")") != std::string::npos)
 	{
-		part.push_back(c);
-		if (c == '(')
+		for (int i = 0; i < input.length(); i++)
 		{
-			bracketCounter++;
-		}
-		if (c == ')')
-		{
-			bracketCounter--;
-		}
-		if (bracketCounter == 0)
-		{
-			if (!regexParts.empty())
-			{   
-				if (isalpha(c) && isalpha(regexParts.back().back())) {
-					regexParts.back().push_back(c);
-					part = "";
-				}
-				else if (c == '\*' || c == '\+')
-				{
-					regexParts.back().push_back(c);
-					part = "";
-				}
-				else
-				{
-					regexParts.push_back(part);
-					part = "";
-				}
-			}
-			else
+			if (bracketCounter >= 1)
 			{
-				regexParts.push_back(part);
-				part = "";
+				part.push_back(input.at(i));
+			}
+
+			if (input.at(i) == '(')
+			{
+				if (bracketCounter == 0)
+				{
+					outside.push_back(input.at(i));
+				}
+				bracketCounter++;
+			}
+			else if (input.at(i) == ')')
+			{
+				bracketCounter--;
+				if (bracketCounter == 0)
+				{
+					part.pop_back();
+
+					/* Insert Recursion */
+					regexPart = RegExBreakdown(part);
+
+					outside.push_back(input.at(i));
+					int j = input.length();
+					if (i < j - 1)
+					{
+						int nextPos = 0;
+						if (input.at(i + 1) == '\*')
+						{
+							nextPos = 1;
+							outside.push_back(input.at(i + 1));
+							specialRegexPart = regexPart -> star();
+							regexPart = specialRegexPart;
+						}
+						else if (input.at(i + 1) == '\+')
+						{
+							nextPos = 1;
+							outside.push_back(input.at(i + 1));
+							specialRegexPart = regexPart -> plus();
+							regexPart = specialRegexPart;
+						}
+						
+						if (input.at(i + 1) == '(')
+						{
+							string temp = input;
+							string findPart = "(" + part + ")";
+							size_t pos = temp.find(findPart) + findPart.length();
+							string nextInput = temp.substr(nextPos + pos);
+							regexPart = regexPart->dot(RegExBreakdown(nextInput));
+						}
+						return regexPart;
+					}
+				}
 			}
 		}
 	}
+	else if (input.find("|") != std::string::npos || input.find("\*") != std::string::npos || input.find("\+") != std::string::npos)
+	{
+		string leftPart;
+		RegExp *expr;
+		for (int i = 0; i < input.length(); i++)
+		{
+			if (input.at(i) == '\*')
+			{
+				expr = new RegExp(leftPart);
+				expr->star();
+				return expr;
+			}
+			else if (input.at(i) == '\+')
+			{
+				expr = new RegExp(leftPart);
+				expr->plus();
+				return expr;
+			}
+			else if (input.at(i) == '|')
+			{
+				string rightPart = input.substr(i+1);
 
-
-
-	RegExp *expression = new RegExp();
-
-
-
-
-	return expression;
+				RegExp* tempExpr = new RegExp(leftPart);
+				expr = tempExpr-> or (new RegExp(rightPart));
+				return expr;
+			}
+			leftPart.push_back(input.at(i));
+		}
+	}
+	else
+	{
+		return new RegExp(input);
+	}
 }
 
 

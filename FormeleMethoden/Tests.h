@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 
+#include "Automata.h"
 #include "RegExp.h"
 
 using namespace std;
@@ -17,12 +18,15 @@ public:
 	void RegExpessie();
 	void Thompson();
 	void printThompson(RegExp* reg);
-
+	void GenerateWord(string, string, Automata<string>*);
+	void TryWords();
 	bool AcceptWord(set<char>, string);
 	void InputWord();
 
 	void InputGrammer();
-
+	void NFA1();
+	void NFA2();
+	void NFA3();
 	RegExp* RegExBreakdown(string);
 	void InputWithRegEx();
 

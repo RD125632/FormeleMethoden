@@ -135,6 +135,4 @@ T Automata<T>::GoTo(char character, T currentState)
 	return currentState;
 }
 
-
-
 template class Automata<string>;

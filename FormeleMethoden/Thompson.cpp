@@ -20,7 +20,6 @@ Automata<string>* Thompson::createAutomata(RegExp * reg)
 	automata->defineAsFinalState(rightState);
 
 	thompsonSwitch(reg, automata, counter, leftState, rightState);
-
 	return automata;
 }
 

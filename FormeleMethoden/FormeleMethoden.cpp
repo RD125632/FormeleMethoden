@@ -12,7 +12,8 @@ int main()
 	int choice;
 	cout << endl;
 	cout << "0: Invoer woord met DFA check" << endl;
-	cout << "1: Voorbeeld Grammatica 1" << endl;
+	cout << "1: Geef woorden gefiltert door DFA" << endl;
+	//cout << "1: Voorbeeld Grammatica 1" << endl;
 	cout << "2: Voorbeeld Expressie 1" << endl;
 	cout << "3: Voorbeeld DFA 1" << endl;
 	cout << "4: Voorbeeld NFA 1" << endl;
@@ -31,6 +32,7 @@ int main()
 		testLib.InputWord();
 		break;
 	case 1:
+		testLib.TryWords();
 		break;
 	case 2:
 		testLib.RegExpessie();
@@ -39,6 +41,7 @@ int main()
 		testLib.PracticumL1R1();
 		break;
 	case 4:
+		testLib.NFA2();
 		break;
 	case 5:
 		testLib.InputGrammer();
