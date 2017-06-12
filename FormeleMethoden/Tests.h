@@ -37,11 +37,12 @@ public:
 	void NfaToGrammatica(Automata<string>* automata);
 	RegExp* RegExBreakdown(string);
 	void InputWithRegEx();
+	void InputWithRegEx(string regex);
 
 	void GetLanguageFromRegEx1();
 	void GetLanguageFromRegEx2();
 	void GetLanguageFromRegEx3();
 	void printLanguageAsString(set<string>);
 	void readRegExpFromFile();
-	void saveResultsToFile();
+	void saveResultsToFile(string);
 };
