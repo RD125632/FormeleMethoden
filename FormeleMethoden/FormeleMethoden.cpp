@@ -34,6 +34,10 @@ int main()
 	cout << "22: Check gegenereerde woorden " << endl;
 	cout << "23: Check ingevoerde woord met DFA " << endl;
 	// Punt 3
+	cout << "31: Genereer DFA die op de invoer begint" << endl;
+	cout << "32: Genereer DFA die de invoer bevat" << endl;
+	cout << "33: Genereer DFA die op de invoer eindigt" << endl;
+	cout << "34: Maak ontkenning van DFA" << endl;
 	// Punt 4
 	cout << "41: Voorbeeld Thompson Constructie " << endl;
 	// Punt 5
@@ -76,6 +80,7 @@ int main()
 	case 19:
 		testLib.GetLanguageFromRegEx3();
 		break;
+/**/
 	case 21:
 		testLib.InputWithRegEx();
 		break;
@@ -85,20 +90,29 @@ int main()
 	case 23:
 		testLib.InputWord();
 		break;
+/**/
 	case 31:
 		testLib.DFABegin();
 		break;
-
+	case 32:
+		testLib.DFAContain();
+		break;
+	case 33:
+		testLib.DFAEnd();
+		break;
+	case 34:
+		testLib.DFADenail();
+		break;
+/**/
 	case 41:
 		testLib.Thompson();
 		break;
-
+/**/
 
 	case 91:
 		testLib.InputGrammer();
 		break;
 	case 92:
-		/* Print to Grammatica werkt niet */
 		testLib.InputNFA();
 		break;
 	}

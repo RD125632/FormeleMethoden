@@ -154,11 +154,41 @@ void Tests::PracticumL1R4()
 
 	// two final states:
 	m.defineAsFinalState("6");	// Begint met ABB en bevat baab
+	m.printTransitions();
+}
 
-								//cout << m.accept("aabaab") << endl; returns 0 == false;
-								//cout << m.accept("abbaab") << endl; returns 1 == true;
+Automata<string> Tests::MorphDFA1()
+{
+	// Begint met 'ABB' of eindigt op BAAB
+	std::vector<char> alphabet = { 'a', 'b' };
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
-								//m.printTransitions();
+	m.addTransition(Transition<string>("S", alphabet[0], "1"));
+	m.addTransition(Transition<string>("S", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("1", alphabet[0], "S"));
+	m.addTransition(Transition<string>("1", alphabet[1], "4"));
+
+	m.addTransition(Transition<string>("2", alphabet[0], "1"));
+	m.addTransition(Transition<string>("2", alphabet[1], "3"));
+
+	m.addTransition(Transition<string>("3", alphabet[0], "1"));
+	m.addTransition(Transition<string>("3", alphabet[1], "2"));
+
+	m.addTransition(Transition<string>("4", alphabet[0], "S"));
+	m.addTransition(Transition<string>("4", alphabet[1], "3"));
+
+	// only on start state in a dfa:
+	m.defineAsStartState("S");
+
+	// final states:
+	m.defineAsFinalState("1");	// Leeg
+	m.defineAsFinalState("3");	// Bevat even aantal B's
+	m.defineAsFinalState("4");	// Bevat oneven aantal A's
+
+	cout << "Current DFA:" << endl;
+	m.printTransitions();
+	return m;
 }
 
 void Tests::NFA1()
@@ -361,7 +391,7 @@ void Tests::InputWord()
 }
 
 /*
-	Create BeginWith DFA from preset
+	DFA Presets
 */
 void Tests::DFABegin()
 {
@@ -381,6 +411,49 @@ void Tests::DFABegin()
 	m.printTransitions();
 }
 
+void Tests::DFAContain()
+{
+	string word;
+	std::set<char> alphabet;
+	cout << "DFA Presets" << endl;
+	cout << "Bevat: " << endl;
+	cin >> word;
+
+	for (char c : word)
+	{
+		alphabet.insert(c);
+	}
+	Automata<string> m = Automata<string>(word,
+		Automata<string>::Preset::contains,
+		vector<char>(alphabet.begin(), alphabet.end()));
+	m.printTransitions();
+}
+
+void Tests::DFAEnd()
+{
+	string word;
+	std::set<char> alphabet;
+	cout << "DFA Presets" << endl;
+	cout << "Eindigt: " << endl;
+	cin >> word;
+
+	for (char c : word)
+	{
+		alphabet.insert(c);
+	}
+	Automata<string> m = Automata<string>(word,
+		Automata<string>::Preset::contains,
+		vector<char>(alphabet.begin(), alphabet.end()));
+	m.printTransitions();
+}
+
+void Tests::DFADenail()
+{
+	Automata<string> mata = MorphDFA1();
+	mata.SwitchDenail();
+	cout << "Denail DFA:" << endl;
+	mata.printTransitions();
+}
 
 /*	Get language of regex with limiter
 *	Input: Regex, Limiter
@@ -879,6 +952,6 @@ void Tests::InputNFA()
 void  Tests::NfaToGrammatica(Automata<string>* automata)
 {
 	Grammatica<string> grammer = Grammatica<string>(automata->getStates(), automata->getAlphabet(), automata->getTransitions(), automata->getStartStates());
-	//grammer.getLanguage();
+	grammer.printGrammatica();
 }
 

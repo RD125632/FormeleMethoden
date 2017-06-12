@@ -64,7 +64,17 @@ void Automata<T>::Contains(string word)
 {
 	for (int i = 0; i < word.length(); i++)
 	{
-		addTransition(Transition<string>(to_string(i), word.at(i), to_string(i + 1)));
+		for (char c : symbols)
+		{
+			if (c == word.at(i))
+			{
+				addTransition(Transition<string>(to_string(i), word.at(i), to_string(i + 1)));
+			}
+			else
+			{
+				addTransition(backTrackForRoute(word, i, c));
+			}
+		}
 	}
 
 	for (char c : symbols)
@@ -84,12 +94,17 @@ void Automata<T>::EndWith(string word)
 {
 	for (int i = 0; i < word.length(); i++)
 	{
-		addTransition(Transition<string>(to_string(i), word.at(i), to_string(i + 1)));
-	}
-
-	for (char c : symbols)
-	{
-		addTransition(Transition<string>(to_string(word.length()), c, to_string(word.length())));
+		for (char c : symbols)
+		{
+			if (c == word.at(i))
+			{
+				addTransition(Transition<string>(to_string(i), word.at(i), to_string(i + 1)));
+			}
+			else
+			{
+				addTransition(backTrackForRoute(word, i, c));
+			}
+		}
 	}
 
 	// only on start state in a dfa:
@@ -97,6 +112,35 @@ void Automata<T>::EndWith(string word)
 
 	// final state:
 	defineAsFinalState(to_string(word.length()));
+}
+
+template <class T>
+void Automata<T>::SwitchDenail()
+{
+	vector<T> newFinals;
+	for (T state : states)
+	{
+		if (find(finalStates.begin(), finalStates.end(), state) != finalStates.end()) {}
+		else
+			newFinals.push_back(state);
+	}
+	finalStates = newFinals;
+}
+
+
+template <class T>
+Transition<T> Automata<T>::backTrackForRoute(string word, int index,  char toUse)
+{
+	// New word with wrong letter
+	string checkString = word.substr(0, index);
+	string tempString = word.substr(0, index) + toUse;
+
+	while (tempString.length() > 0 && checkString.compare(tempString))
+	{
+		checkString = checkString.substr(0, tempString.length()-1);
+		tempString = tempString.substr(1, tempString.length());
+	}
+	return Transition<T>(to_string(index), toUse, to_string(tempString.length()));
 }
 
 template <class T>
@@ -207,7 +251,7 @@ bool Automata<T>::isDFA()
 }
 
 template <class T>
-std::vector<Transition<T>> Automata<T>::getToStates(T from, char symbol)
+vector<Transition<T>> Automata<T>::getToStates(T from, char symbol)
 {
 	std::vector<Transition<T>> toTransitions = {};
 	for (Transition<T> &transition : transitions)

@@ -20,6 +20,7 @@ public:
 	vector<T> getFinalStates();
 	vector<Transition<T>> getTransitions();
 
+	void Automata<T>::SwitchDenail();
 	void addTransition(Transition<T> t);
 	void defineAsStartState(T t);
 	void defineAsFinalState(T t);
@@ -28,6 +29,7 @@ public:
 	bool isDFA();
 	void setAlphabet(vector<char> s);
 private:
+	Transition<T> backTrackForRoute(string word, int index, char toUse);
 	void Automata<T>::BeginWith(string word);
 	void Automata<T>::EndWith(string word);
 	void Automata<T>::Contains(string word);

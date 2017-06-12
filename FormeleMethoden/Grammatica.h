@@ -14,5 +14,7 @@ public:
 	vector<char> alphabet = {};
 	vector<Transition<T>> transitions = {};
 	vector<T> startStates = {};
+	void printGrammatica();
+	vector<Transition<T>> getToStates(T);
 };
 
