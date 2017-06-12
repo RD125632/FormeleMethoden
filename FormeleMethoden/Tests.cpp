@@ -524,11 +524,13 @@ void Tests::TryWords()
 */
 void Tests::InputWithRegEx()
 {
-	string input = "((ba)(a|b)*)+";
+	string input;
+	//string input = "((ba)(a|b)*)+";
 	cout << "Enter Regular Expression" << endl;
 	cin >> input;
 	RegExp *exp = RegExBreakdown(input);
 	exp->toString();
+	exp->getLanguage(4);
 	getchar();
 }
 
