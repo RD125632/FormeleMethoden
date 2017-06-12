@@ -21,6 +21,10 @@ Automata<T>::Automata(string str, Preset p, vector<char> s)
 		BeginWith(str);
 		break;
 	case Preset::contains:
+		Contains(str);
+		break;
+	case Preset::endWith:
+		EndWith(str);
 		break;
 	}
 }
@@ -55,6 +59,45 @@ void Automata<T>::BeginWith(string word)
 	defineAsFinalState(to_string(word.length()));
 }
 
+template <class T>
+void Automata<T>::Contains(string word)
+{
+	for (int i = 0; i < word.length(); i++)
+	{
+		addTransition(Transition<string>(to_string(i), word.at(i), to_string(i + 1)));
+	}
+
+	for (char c : symbols)
+	{
+		addTransition(Transition<string>(to_string(word.length()), c, to_string(word.length())));
+	}
+
+	// only on start state in a dfa:
+	defineAsStartState(to_string(0));
+
+	// final state:
+	defineAsFinalState(to_string(word.length()));
+}
+
+template <class T>
+void Automata<T>::EndWith(string word)
+{
+	for (int i = 0; i < word.length(); i++)
+	{
+		addTransition(Transition<string>(to_string(i), word.at(i), to_string(i + 1)));
+	}
+
+	for (char c : symbols)
+	{
+		addTransition(Transition<string>(to_string(word.length()), c, to_string(word.length())));
+	}
+
+	// only on start state in a dfa:
+	defineAsStartState(to_string(0));
+
+	// final state:
+	defineAsFinalState(to_string(word.length()));
+}
 
 template <class T>
 void Automata<T>::setAlphabet(std::vector<char> s)

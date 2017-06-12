@@ -29,6 +29,8 @@ public:
 	void setAlphabet(vector<char> s);
 private:
 	void Automata<T>::BeginWith(string word);
+	void Automata<T>::EndWith(string word);
+	void Automata<T>::Contains(string word);
 	vector<Transition<T>> transitions = {};
 	vector<char> symbols = {};
 	vector<T> states = {};
