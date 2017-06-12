@@ -33,6 +33,7 @@ public:
 	void NfaToGrammatica(Automata<string>* automata);
 	RegExp* RegExBreakdown(string);
 	void InputWithRegEx();
+	void InputWithRegEx(string regex);
 
 	void GetLanguageFromRegEx1();
 	void GetLanguageFromRegEx2();

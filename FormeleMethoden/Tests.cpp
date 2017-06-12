@@ -402,7 +402,8 @@ void Tests::readRegExpFromFile()
 	{
 		while (getline(myfile, line))
 		{
-			cout << line << '\n';
+			InputWithRegEx(line);
+			break;
 		}
 		myfile.close();
 	}
@@ -548,8 +549,26 @@ void Tests::InputWithRegEx()
 	cout << "Enter Regular Expression" << endl;
 	cin >> input;
 	RegExp *exp = RegExBreakdown(input);
-	exp->toString();
-	exp->getLanguage(4);
+	cout << exp->toString() << endl;
+	for(string s : exp->getLanguage(4))
+	{
+		cout << s << endl;
+	}
+	getchar();
+}
+
+/*
+*	Input: Reguliere Expressie
+*	Output: Zelfde Expressie
+*/
+void Tests::InputWithRegEx(string input)
+{
+	RegExp *exp = RegExBreakdown(input);
+	cout << exp->toString() << endl;
+	for (string s : exp->getLanguage(4))
+	{
+		cout << s << endl;
+	}
 	getchar();
 }
 

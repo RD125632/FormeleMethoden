@@ -29,6 +29,7 @@ int main()
 	cout << "17: Voorbeeld REG 1 " << endl;
 	cout << "18: Voorbeeld REG 2 " << endl; 
 	cout << "19: Voorbeeld REG 3 " << endl;
+	cout << "191: Lees Regex uit bestand" << endl;
 	// Punt 2
 	cout << "21: Geef taal van Reguliere Expressie " << endl;
 	cout << "22: Check gegenereerde woorden " << endl;
@@ -75,6 +76,9 @@ int main()
 		break;
 	case 19:
 		testLib.GetLanguageFromRegEx3();
+		break;
+	case 191:
+		testLib.readRegExpFromFile();
 		break;
 	case 21:
 		testLib.InputWithRegEx();
