@@ -20,7 +20,7 @@ void Tests::PracticumL1R1()
 {
 	// Begint met 'ABB' of eindigt op BAAB
 	std::vector<char> alphabet = { 'a', 'b' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "2"));
 	m.addTransition(Transition<string>("S", alphabet[1], "5"));
@@ -63,7 +63,7 @@ void Tests::PracticumL1R2()
 {
 	// Begint met 'ABB' of eindigt op BAAB
 	std::vector<char> alphabet = { 'a', 'b' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "1"));
 	m.addTransition(Transition<string>("S", alphabet[1], "2"));
@@ -94,7 +94,7 @@ void Tests::PracticumL1R2()
 void Tests::PracticumL1R3()
 {
 	std::vector<char> alphabet = { 'a', 'b' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "2"));
 	m.addTransition(Transition<string>("S", alphabet[1], "1"));
@@ -123,7 +123,7 @@ void Tests::PracticumL1R3()
 void Tests::PracticumL1R4()
 {
 	std::vector<char> alphabet = { 'a', 'b' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "1"));
 	m.addTransition(Transition<string>("S", alphabet[1], "7"));
@@ -164,7 +164,7 @@ void Tests::PracticumL1R4()
 void Tests::NFA1()
 {
 	std::vector<char> alphabet = { 'a', 'b', '$' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "1"));
 	m.addTransition(Transition<string>("1", alphabet[0], "2"));
@@ -182,7 +182,7 @@ void Tests::NFA1()
 void Tests::NFA2()
 {
 	std::vector<char> alphabet = { 'a', 'b', '$' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[2], "1"));
 	m.addTransition(Transition<string>("4", alphabet[2], "2"));
@@ -202,7 +202,7 @@ void Tests::NFA2()
 void Tests::NFA3()
 {
 	std::vector<char> alphabet = { 'a', 'b', '$' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[2], "1"));
 	m.addTransition(Transition<string>("1", alphabet[0], "2"));
@@ -309,7 +309,7 @@ void Tests::printThompson(RegExp * reg)
 bool Tests::AcceptWord(std::set<char> cSet, string word)
 {
 	std::vector<char> alphabet(cSet.begin(), cSet.end());
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "1"));
 	m.addTransition(Transition<string>("S", alphabet[1], "7"));
@@ -360,7 +360,26 @@ void Tests::InputWord()
 	cout << ((AcceptWord(alphabet, word)) ? "Accepted" : "Rejected") << endl;
 }
 
+/*
+	Create BeginWith DFA from preset
+*/
+void Tests::DFABegin()
+{
+	string word;
+	std::set<char> alphabet;
+	cout << "DFA Presets" << endl;
+	cout << "Start met: " << endl;
+	cin >> word;
 
+	for (char c : word)
+	{
+		alphabet.insert(c);
+	}
+	Automata<string> m = Automata<string>(word, 
+		Automata<string>::Preset::beginWith, 
+		vector<char>(alphabet.begin(), alphabet.end()));
+	m.printTransitions();
+}
 
 
 /*	Get language of regex with limiter
@@ -494,7 +513,7 @@ void Tests::GenerateWord(string str, string res, Automata<string> *m) {
 void Tests::TryWords()
 {
 	std::vector<char> alphabet = { 'a', 'b' };
-	Automata<string> m = Automata<string>(alphabet);
+	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
 
 	m.addTransition(Transition<string>("S", alphabet[0], "1"));
 	m.addTransition(Transition<string>("S", alphabet[1], "2"));
@@ -571,18 +590,17 @@ RegExp* Tests::RegExBreakdown(string input)
 					regexPart = RegExBreakdown(part);
 
 					outside.push_back(input.at(i));
-					int j = input.length();
-					if (i < j - 1)
+					if (i < input.length() - 1)
 					{
 						int nextPos = 0;
-						if (input.at(i + 1) == '\*')
+						if (input.at(i + 1) == '*')
 						{
 							nextPos = 1;
 							outside.push_back(input.at(i + 1));
 							specialRegexPart = regexPart -> star();
 							regexPart = specialRegexPart;
 						}
-						else if (input.at(i + 1) == '\+')
+						else if (input.at(i + 1) == '+')
 						{
 							nextPos = 1;
 							outside.push_back(input.at(i + 1));
@@ -604,19 +622,19 @@ RegExp* Tests::RegExBreakdown(string input)
 			}
 		}
 	}
-	else if (input.find("|") != std::string::npos || input.find("\*") != std::string::npos || input.find("\+") != std::string::npos)
+	else if (input.find("|") != std::string::npos || input.find("*") != std::string::npos || input.find("+") != std::string::npos)
 	{
 		string leftPart;
 		RegExp *expr;
 		for (int i = 0; i < input.length(); i++)
 		{
-			if (input.at(i) == '\*')
+			if (input.at(i) == '*')
 			{
 				expr = new RegExp(leftPart);
 				expr->star();
 				return expr;
 			}
-			else if (input.at(i) == '\+')
+			else if (input.at(i) == '+')
 			{
 				expr = new RegExp(leftPart);
 				expr->plus();
@@ -637,6 +655,7 @@ RegExp* Tests::RegExBreakdown(string input)
 	{
 		return new RegExp(input);
 	}
+	return nullptr;
 }
 
 
@@ -733,7 +752,7 @@ void  Tests::GrammaticaToNfa(Grammatica<string>* grammer)
 	cout << "Omzetten van Reguliere Grammatica naar NFA....." << endl;
 	string input, token;
 
-	Automata<string> automata = Automata<string>(grammer->alphabet);
+	Automata<string> automata = Automata<string>(Automata<string>::Preset::none, grammer->alphabet);
 	for (Transition<string> t : grammer->transitions)
 		automata.addTransition(t);
 	for (string s : grammer->startStates)
@@ -845,7 +864,7 @@ void Tests::InputNFA()
 		F.push_back(token);
 	}
 
-	Automata<string> automata = Automata<string>(E);
+	Automata<string> automata = Automata<string>(Automata<string>::Preset::none, E);
 
 	for (Transition<string> t : P)
 		automata.addTransition(t);

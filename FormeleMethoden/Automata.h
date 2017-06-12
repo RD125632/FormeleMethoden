@@ -9,7 +9,11 @@ using namespace std;
 template <class T>
 class Automata {
 public:
-	Automata(vector<char> s = vector<char>());
+	// Preset DFA types
+	enum Preset { beginWith, endWith, contains, none } preset;
+
+	Automata(Preset p = Preset::none,vector<char> s = vector<char>());
+	Automata(string str, Preset p = Preset::none, vector<char> s = vector<char>());
 	vector<char> getAlphabet();
 	vector<T> getStates();
 	vector<T> getStartStates();
@@ -24,6 +28,7 @@ public:
 	bool isDFA();
 	void setAlphabet(vector<char> s);
 private:
+	void Automata<T>::BeginWith(string word);
 	vector<Transition<T>> transitions = {};
 	vector<char> symbols = {};
 	vector<T> states = {};

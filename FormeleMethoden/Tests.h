@@ -23,7 +23,7 @@ public:
 	void TryWords();
 	bool AcceptWord(set<char>, string);
 	void InputWord();
-
+	void Tests::DFABegin();
 	void InputGrammer();
 	void NFA1();
 	void NFA2();

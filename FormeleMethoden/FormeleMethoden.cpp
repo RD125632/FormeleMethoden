@@ -85,6 +85,10 @@ int main()
 	case 23:
 		testLib.InputWord();
 		break;
+	case 31:
+		testLib.DFABegin();
+		break;
+
 	case 41:
 		testLib.Thompson();
 		break;
