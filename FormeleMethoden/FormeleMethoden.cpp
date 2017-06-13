@@ -37,6 +37,7 @@ int main()
 	// Punt 4
 	cout << "41: Voorbeeld Thompson Constructie " << endl;
 	// Punt 5
+	cout << "51: NFA to DFA " << endl;
 	// Punt 6
 	// Punt 7
 	// Punt 9
@@ -92,8 +93,9 @@ int main()
 	case 41:
 		testLib.Thompson();
 		break;
-
-
+	case 51:
+		testLib.NFA2DFA();
+		break;
 	case 91:
 		testLib.InputGrammer();
 		break;

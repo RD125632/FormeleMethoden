@@ -6,12 +6,43 @@
 #include "Grammatica.h"
 #include <iostream>
 #include <fstream>
+#include "NdfaToDfaConverter.h"
 
 using namespace std;
 
 Tests::Tests()
 {
 }
+
+
+
+
+void Tests::NFA2DFA()
+{
+	std::vector<char> alphabet = { 'a', 'b', '$' };
+	Automata<string> nfa = Automata<string>(Automata<string>::Preset::none, alphabet);
+
+	nfa.addTransition(Transition<string>("S", alphabet[2], "1"));
+	nfa.addTransition(Transition<string>("4", alphabet[2], "2"));
+	nfa.addTransition(Transition<string>("3", alphabet[2], "1"));
+	nfa.addTransition(Transition<string>("1", alphabet[0], "2"));
+	nfa.addTransition(Transition<string>("2", alphabet[1], "3"));
+	nfa.addTransition(Transition<string>("3", alphabet[0], "4"));
+
+	// only on start state in a dfa:
+	nfa.defineAsStartState("S");
+
+	// two final states:
+	nfa.defineAsFinalState("4");
+	cout << "Show NFA:" << endl;
+	nfa.printTransitions();
+
+	Automata<string> dfa = NdfaToDfaConverter::Convert(nfa);
+	cout << "Show DFA:" << endl;
+	dfa.printTransitions();
+	
+}
+
 
 /*	Homework Assignments for Regular Grammer
 *	-

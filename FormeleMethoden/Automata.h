@@ -11,7 +11,7 @@ class Automata {
 public:
 	// Preset DFA types
 	enum Preset { beginWith, endWith, contains, none } preset;
-
+	vector<Transition<T>> epsilonNested();
 	Automata(Preset p = Preset::none,vector<char> s = vector<char>());
 	Automata(string str, Preset p = Preset::none, vector<char> s = vector<char>());
 	vector<char> getAlphabet();

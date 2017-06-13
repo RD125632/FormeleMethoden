@@ -1,5 +1,7 @@
 #include "NdfaToDfaConverter.h"
 #include <algorithm>
+#include <sstream>
+#include <string>
 
 Automata<string> NdfaToDfaConverter::Convert(Automata<string> ndfa)
 {
@@ -20,7 +22,7 @@ Automata<string> NdfaToDfaConverter::Convert(Automata<string> ndfa)
 	{
 		combinedStartState += s + "_";
 		vector<string> tempFinalStatesContainer = ndfa.getFinalStates();
-		if (std::find(tempFinalStatesContainer.begin(), tempFinalStatesContainer.end(), s) != tempFinalStatesContainer.end())
+		if (find(tempFinalStatesContainer.begin(), tempFinalStatesContainer.end(), s) != tempFinalStatesContainer.end())
 			isFinalState = true;
 	}
 
@@ -69,17 +71,21 @@ Automata<string> NdfaToDfaConverter::finaliseConversion(Automata<string> merged)
 
 	for(Transition<string> t : merged.getTransitions())
 	{
-		finalisedMerge.addTransition(Transition<string>(t.getFromState().Replace("_", string.Empty), t.Symbol, t.ToState.Replace("_", string.Empty)));
+		replace(t.getFromState().begin(), t.getFromState().end(), '_', ' ');
+		replace(t.getToState().begin(), t.getToState().end(), '_', ' ');
+		finalisedMerge.addTransition(Transition<string>(t.getFromState(), t.getSymbol(), t.getToState()));
 	}
 
 	for(string startState : merged.getStartStates())
 	{
-		finalisedMerge.defineAsStartState(startState.Replace("_", string.Empty));
+		replace(startState.begin(), startState.end(), '_', ' ');
+		finalisedMerge.defineAsStartState(startState);
 	}
 
 	for(string finalState : merged.getFinalStates())
 	{
-		finalisedMerge.defineAsFinalState(finalState.Replace("_", string.Empty));
+		replace(finalState.begin(), finalState.end(), '_', ' ');
+		finalisedMerge.defineAsFinalState(finalState);
 	}
 
 
@@ -128,17 +134,18 @@ bool NdfaToDfaConverter::CheckExistingRouteForChar(string currentState, char sym
 
 int NdfaToDfaConverter::CheckAvailableRoutes(vector<string> states, char symbol, Automata<string> ndfa)
 {
-	//array which shows how many possible routes there are for each sub-state
-	int[] possibleRoutesPerState = new int[states.Length];
 	//// value that shows the amount of routes the ndfa has for all the substates combined.
 	int correctAmountOfRoutes = 0;
 
 	//reads ndfa for possible routes, saves maximum amount of accessible routes to correctAmountOfRoutes
 	for(string state : states)
 	{
-		if (ndfa.getTransition(state).Count(transition = > transition.Symbol == symbol) > correctAmountOfRoutes)
+		for (Transition<string> corTrans : ndfa.getTransition(state))
 		{
-			correctAmountOfRoutes = ndfa.GetTransition(state).Count(transition = > transition.Symbol == symbol);
+			if (corTrans.getSymbol() == symbol)
+			{
+				correctAmountOfRoutes++;
+			}
 		}
 	}
 	return correctAmountOfRoutes;
@@ -149,13 +156,13 @@ bool NdfaToDfaConverter::GenerateToState(string & toState, vector<string> states
 	//boolean that will save whether this new TOSTATE needs to be a finalstate
 	bool isFinalState = false;
 	//Set of all the substates that need to be combined. this set does also include all states reached through epsilon routes
-	SortedSet<string> newStates = new SortedSet<string>();
+	vector<string> newStates;
 
 	//Loop through all the substates 
 	for(string state : states)
 	{
 		//ndfa transitions for state
-		List<Transition<string>> trans = ndfa.getTransition(state);
+		vector<Transition<string>> trans = ndfa.getTransition(state);
 
 		//This loop goes through all the aforementioned transitions
 		//to see if there are routes with the correct symbol that need to be added to the new TOSTATE
@@ -179,21 +186,35 @@ bool NdfaToDfaConverter::GenerateToState(string & toState, vector<string> states
 	for(string subState : newStates)
 	{
 		toState += subState + "_";
-		if (ndfa.getFinalStates().Contains(subState))
+		if (find(ndfa.getFinalStates().begin(), ndfa.getFinalStates().end(), subState) != ndfa.getFinalStates().end())
+		{
 			isFinalState = true;
+		}
 	}
-	toState = toState.TrimEnd('_');
+
+	//trim last "_" off of string
+	if (toState.back() = '_')
+		toState = toState.erase(toState.length() - 1);
+
 	return isFinalState;
 }
 
 void NdfaToDfaConverter::ConvertState(string currentState, Automata<string>& dfa, Automata<string>& ndfa)
 {
 	//If this state is already completely processed, return to avoid stackoverflow exception
-	if (dfa.getTransition(currentState).Count == ndfa.getAlphabet().Count)
+	if (dfa.getTransition(currentState).size() == ndfa.getAlphabet().size())
 		return;
 
 	//split given state for comparison
-	string[] states = currentState.Split('_');
+	vector<string> states;
+	string token;
+	stringstream ssstate(currentState);
+
+	while (getline(ssstate, token, ','))
+	{
+		states.push_back(token);
+	}
+
 
 	//Loop through all symbols aka all the necessary routes
 	for(char symbol : ndfa.getAlphabet())
@@ -217,7 +238,7 @@ void NdfaToDfaConverter::ConvertState(string currentState, Automata<string>& dfa
 			dfa.addTransition(Transition<string>(currentState, symbol, toState));
 
 			//Checks if currentState is should be final aswell (could be done better)
-			if (ndfa.getFinalStates().Contains(currentState))
+			if (find(ndfa.getFinalStates().begin(), ndfa.getFinalStates().end(), currentState) != ndfa.getFinalStates().end())
 			{
 				dfa.defineAsFinalState(currentState);
 			}

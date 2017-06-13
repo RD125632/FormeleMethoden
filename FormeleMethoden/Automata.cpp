@@ -151,13 +151,26 @@ vector<Transition<T>> Automata<T>::getTransitions()
 template<class T>
 vector<Transition<T>> Automata<T>::getTransition(T state)
 {
-	vector<Transition<T>> transitions = getTransitions().Where(e = > e.FromState.Equals(state)).ToList();
-	vector<T> epsilonStates = transitions.Where(e = > e.Symbol == '$').Select(e = > e.ToState).ToList();
-	for (T epsilonState : epsilonStates)
+	vector<Transition<T>> conversieTrans, epsilonTrans;
+	for (char c : getAlphabet())
 	{
-		transitions.addRange(getTransition(epsilonState));
+		for (Transition<T> t : getToStates(state, c))
+		{
+			conversieTrans.push_back(t);
+			if (t.getSymbol() == t.EPSILON)
+			{
+				epsilonTrans.push_back(t);
+			}
+		}
 	}
-	return transitions;
+
+	for (Transition<T> epsilon : epsilonTrans)
+	{
+		vector<Transition<T>> tempEpsilon = getTransition(epsilon.getToState());
+		conversieTrans.insert(conversieTrans.end(), tempEpsilon.begin(), tempEpsilon.end());
+	}
+
+	return conversieTrans;
 }
 
 template <class T>
