@@ -44,6 +44,7 @@ int main()
 	// Punt 5
 	cout << "51: NFA to DFA " << endl;
 	// Punt 6
+	cout << "61: Reverse " << endl;
 	// Punt 7
 	// Punt 9
 	cout << "91: Invoer Grammatica naar NFA " << endl;
@@ -115,6 +116,10 @@ int main()
 /**/
 	case 51:
 		testLib.NFA2DFA();
+		break;
+		/**/
+	case 61:
+		testLib.ReverseDfaOptimize();
 		break;
 	case 91:
 		testLib.InputGrammer();

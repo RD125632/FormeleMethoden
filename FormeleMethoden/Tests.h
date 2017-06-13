@@ -12,11 +12,12 @@ using namespace std;
 class Tests {
 public:
 	Tests();
+	void ReverseDfaOptimize();
 	void NFA2DFA();
 	void PracticumL1R1();
 	void PracticumL1R2();
 	void PracticumL1R3();
-	void PracticumL1R4();
+	Automata<string> PracticumL1R4();
 	Automata<string> MorphDFA1();
 	void Thompson();
 	void printThompson(RegExp* reg);

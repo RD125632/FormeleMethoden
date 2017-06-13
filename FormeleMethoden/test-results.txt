@@ -5,6 +5,7 @@ digraph finite_state_machine {
 		0	->	3	[label="$"];
 		4	->	3	[label="$"];
 		4	->	1	[label="$"];
+		0	->	1	[label="$"];
 		3	->	5	[label="$"];
 		3	->	7	[label="$"];
 		6	->	4	[label="$"];

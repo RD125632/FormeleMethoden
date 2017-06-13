@@ -14,9 +14,6 @@ Tests::Tests()
 {
 }
 
-
-
-
 void Tests::NFA2DFA()
 {
 	std::vector<char> alphabet = { 'a', 'b', '$' };
@@ -43,6 +40,11 @@ void Tests::NFA2DFA()
 	
 }
 
+void Tests::ReverseDfaOptimize()
+{
+	Automata<string> aS = NdfaToDfaConverter::OptimizeDfa(PracticumL1R4());
+	aS.printTransitions();
+}
 
 /*	Homework Assignments for Regular Grammer
 *	-
@@ -151,7 +153,7 @@ void Tests::PracticumL1R3()
 	m.printTransitions();
 }
 
-void Tests::PracticumL1R4()
+Automata<string> Tests::PracticumL1R4()
 {
 	std::vector<char> alphabet = { 'a', 'b' };
 	Automata<string> m = Automata<string>(Automata<string>::Preset::none, alphabet);
@@ -186,6 +188,7 @@ void Tests::PracticumL1R4()
 	// two final states:
 	m.defineAsFinalState("6");	// Begint met ABB en bevat baab
 	m.printTransitions();
+	return m;
 }
 
 Automata<string> Tests::MorphDFA1()
