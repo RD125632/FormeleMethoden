@@ -12,6 +12,7 @@ using namespace std;
 class Tests {
 public:
 	Tests();
+	void NFA2DFA();
 	void PracticumL1R1();
 	void PracticumL1R2();
 	void PracticumL1R3();

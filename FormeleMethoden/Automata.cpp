@@ -175,9 +175,46 @@ vector<T> Automata<T>::getFinalStates()
 }
 
 template<class T>
+void Automata<T>::setStartStates(vector<T> startStates)
+{
+	Automata<T>::startStates = startStates;
+}
+
+template<class T>
+void Automata<T>::setFinalStates(vector<T> finalStates)
+{
+	Automata<T>::finalStates = finalStates;
+}
+
+template<class T>
 vector<Transition<T>> Automata<T>::getTransitions()
 {
 	return transitions;
+}
+
+template<class T>
+vector<Transition<T>> Automata<T>::getTransition(T state)
+{
+	vector<Transition<T>> conversieTrans, epsilonTrans;
+	for (char c : getAlphabet())
+	{
+		for (Transition<T> t : getToStates(state, c))
+		{
+			conversieTrans.push_back(t);
+			if (t.getSymbol() == t.EPSILON)
+			{
+				epsilonTrans.push_back(t);
+			}
+		}
+	}
+
+	for (Transition<T> epsilon : epsilonTrans)
+	{
+		vector<Transition<T>> tempEpsilon = getTransition(epsilon.getToState());
+		conversieTrans.insert(conversieTrans.end(), tempEpsilon.begin(), tempEpsilon.end());
+	}
+
+	return conversieTrans;
 }
 
 template <class T>
@@ -191,15 +228,25 @@ void Automata<T>::addTransition(Transition<T> t)
 template <class T>
 void Automata<T>::defineAsStartState(T t)
 {
-	states.push_back(t);
-	startStates.push_back(t);
+	if (std::find(startStates.begin(), startStates.end(), t) != startStates.end()) {
+		//do nothing, t is already a startstate
+	}
+	else {
+		states.push_back(t);
+		startStates.push_back(t);
+	}
 }
 
 template <class T>
 void Automata<T>::defineAsFinalState(T t)
 {
-	states.push_back(t);
-	finalStates.push_back(t);
+	if (std::find(finalStates.begin(), finalStates.end(), t) != finalStates.end()) {
+		//do nothing, t is already a finalState
+	}
+	else {
+		states.push_back(t);
+		finalStates.push_back(t);
+	}
 }
 
 template <class T>
