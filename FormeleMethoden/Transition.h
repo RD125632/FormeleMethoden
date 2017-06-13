@@ -19,8 +19,9 @@ public:
 	string toString();
 	string Transition<T>::toGraphViz();
 
-private:
 	T fromState;
 	T toState;
+private:
+
 	char symbol;
 };

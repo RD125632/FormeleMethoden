@@ -65,27 +65,42 @@ Automata<string> NdfaToDfaConverter::OptimizeDfa(Automata<string> dfa)
 	return Convert(Reverse(Convert(Reverse(dfa))));
 }
 
+string NdfaToDfaConverter::RemoveUnderScore(string str)
+{
+	string newString;
+	for (char c : str)
+	{
+		if (c == '_')
+		{
+			newString.append("");
+		}
+		else
+		{
+			newString.append(to_string(c));
+		}
+	}
+	return newString;
+}
+
 Automata<string> NdfaToDfaConverter::finaliseConversion(Automata<string> merged)
 {
 	Automata<string> finalisedMerge = Automata<string>(Automata<string>::Preset::none, merged.getAlphabet());
 
 	for(Transition<string> t : merged.getTransitions())
 	{
-		replace(t.getFromState().begin(), t.getFromState().end(), '_', ' ');
-		replace(t.getToState().begin(), t.getToState().end(), '_', ' ');
+		t.fromState = RemoveUnderScore(t.getFromState());
+		t.toState = RemoveUnderScore(t.getToState());
 		finalisedMerge.addTransition(Transition<string>(t.getFromState(), t.getSymbol(), t.getToState()));
 	}
 
 	for(string startState : merged.getStartStates())
 	{
-		replace(startState.begin(), startState.end(), '_', ' ');
-		finalisedMerge.defineAsStartState(startState);
+		finalisedMerge.defineAsStartState(RemoveUnderScore(startState));
 	}
 
 	for(string finalState : merged.getFinalStates())
 	{
-		replace(finalState.begin(), finalState.end(), '_', ' ');
-		finalisedMerge.defineAsFinalState(finalState);
+		finalisedMerge.defineAsFinalState(RemoveUnderScore(finalState));
 	}
 
 

@@ -9,6 +9,7 @@ using namespace std;
 
 class NdfaToDfaConverter {
 public:
+	static string RemoveUnderScore(string str);
 	static Automata<string> Convert(Automata<string> ndfa);
 	static Automata<string> Reverse(Automata<string> automaat);
 	static Automata<string> OptimizeDfa(Automata<string> dfa);
